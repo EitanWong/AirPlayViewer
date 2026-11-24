@@ -1,0 +1,139 @@
+name: CI and release
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [dev, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  repository:
+    name: Repository checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - run: sh scripts/check-repository.sh
+      - name: Validate dev to main promotion
+        if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' }}
+        env:
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          SOURCE_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ "$SOURCE_BRANCH" != dev ] || [ "$SOURCE_REPOSITORY" != "$GITHUB_REPOSITORY" ]; then
+            echo "Pull requests to main must come from this repository's dev branch." >&2
+            exit 1
+          fi
+          previous="$(git show "$BASE_SHA:VERSION")"
+          sh scripts/version.sh "$(sh scripts/version.sh)" "$previous"
+
+  macos:
+    name: macOS tests and package smoke check
+    needs: repository
+    # Enable only once GitHub lists macos-27 as a hosted Arm64 runner.
+    if: ${{ vars.AIRPLAYVIEWER_MACOS_RUNNER == 'macos-27' }}
+    runs-on: ${{ vars.AIRPLAYVIEWER_MACOS_RUNNER }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - run: brew install openssl@3
+      - run: sh scripts/ci.sh
+
+  main-ready:
+    name: Main ready
+    if: ${{ always() && github.event_name == 'pull_request' && github.base_ref == 'main' }}
+    needs: [repository, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require policy, tests and DMG verification
+        env:
+          REPOSITORY_RESULT: ${{ needs.repository.result }}
+          MACOS_RESULT: ${{ needs.macos.result }}
+        run: |
+          test "$REPOSITORY_RESULT" = success
+          if [ "$MACOS_RESULT" != success ]; then
+            echo "macOS tests and DMG verification must pass before merging to main." >&2
+            exit 1
+          fi
+
+  release:
+    name: Publish Developer ID DMG
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && vars.AIRPLAYVIEWER_RELEASE_ENABLED == 'true' }}
+    needs: [repository, macos]
+    runs-on: ${{ vars.AIRPLAYVIEWER_MACOS_RUNNER }}
+    environment: release
+    concurrency:
+      group: airplayviewer-release
+      # GitHub Actions queued concurrency keeps pending releases instead of replacing them.
+      queue: max
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Check version and existing release
+        id: version
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test -s LICENSE
+          version="$(sh scripts/version.sh)"
+          tag="v$version"
+          dmg="AirPlayViewer-$version-arm64.dmg"
+          if [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != 0000000000000000000000000000000000000000 ]; then
+            previous="$(git show "$BEFORE_SHA:VERSION")"
+            sh scripts/version.sh "$version" "$previous"
+          fi
+          if git show-ref --verify --quiet "refs/tags/$tag"; then
+            test "$(git rev-list -n 1 "$tag")" = "$GITHUB_SHA"
+            gh release view "$tag" --json isDraft,assets |
+              jq -e --arg dmg "$dmg" '.isDraft == false and ([.assets[].name] | index($dmg) != null and index($dmg + ".sha256") != null)'
+            echo "Release $tag already exists for this commit; no assets were changed."
+            exit 0
+          fi
+          latest="$(git tag --list --sort=-version:refname 'v*' | awk '/^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/ { print substr($0, 2); exit }')"
+          if [ -n "$latest" ]; then
+            sh scripts/version.sh "$version" "$latest"
+          else
+            test "$version" = 0.1.0
+          fi
+          printf 'tag=%s\ndmg=%s\n' "$tag" "$dmg" >> "$GITHUB_OUTPUT"
+      - if: ${{ steps.version.outputs.tag != '' }}
+        run: brew install openssl@3
+      - name: Sign and notarize
+        if: ${{ steps.version.outputs.tag != '' }}
+        env:
+          CODESIGN_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_CERT_P12_B64: ${{ secrets.APPLE_CERT_P12_B64 }}
+          APPLE_CERT_PASSWORD: ${{ secrets.APPLE_CERT_PASSWORD }}
+          APPLE_NOTARY_KEY_P8_B64: ${{ secrets.APPLE_NOTARY_KEY_P8_B64 }}
+          APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+          APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+        run: sh scripts/sign-release.sh
+      - name: Publish DMG and checksum
+        if: ${{ steps.version.outputs.tag != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+          DMG_NAME: ${{ steps.version.outputs.dmg }}
+        run: |
+          (cd build/release && shasum -a 256 -c "$DMG_NAME.sha256")
+          gh release create "$RELEASE_TAG" "build/release/$DMG_NAME" "build/release/$DMG_NAME.sha256" \
+            --target "$GITHUB_SHA" --title "AirPlayViewer $RELEASE_TAG" --generate-notes --draft
+          gh release edit "$RELEASE_TAG" --draft=false

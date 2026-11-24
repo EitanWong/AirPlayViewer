@@ -1,0 +1,38 @@
+{
+  "fill": {
+    "automatic-gradient": "extended-srgb:0.27000,0.30000,0.31000,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "Receiver.svg",
+          "name": "Receiver"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.42
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.38
+      }
+    },
+    {
+      "layers": [
+        {
+          "image-name": "Signal.svg",
+          "name": "Signal"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.35
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": ["macOS"]
+  }
+}

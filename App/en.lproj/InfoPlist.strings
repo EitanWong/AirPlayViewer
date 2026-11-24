@@ -1,0 +1,2 @@
+/* Shown by macOS when it asks to allow local network access. */
+"NSLocalNetworkUsageDescription" = "AirPlayViewer receives AirPlay screen mirroring from devices on your local network.";

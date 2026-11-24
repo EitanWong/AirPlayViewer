@@ -1,0 +1,207 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "status.starting": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Starting Receiver…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"正在启动接收器…"}}}},
+    "menu.preferences": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Settings…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"设置…"}}}},
+    "settings.receiver": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"AirPlay Receiver"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"AirPlay 接收器"}}}},
+    "settings.receiverName": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"AirPlay Name"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"AirPlay 名称"}}}},
+    "settings.receiverIcon": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"App Icon"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"应用内图标"}}}},
+    "settings.chooseIcon": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Choose Image…"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"选择图片…"}}}},
+    "settings.resetIcon": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Reset"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"还原"}}}},
+    "settings.presentation": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Presentation"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"演示"}}}},
+    "settings.presentationEnabled": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Presentation Mode"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"演示模式"}}}},
+    "settings.presentationZoom": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Zoom Amount"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"缩放幅度"}}}},
+    "settings.iconImportFailed": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Couldn’t Open This Image"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"无法打开此图片"}}}},
+    "button.cancel": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Cancel"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"取消"}}}},
+    "button.save": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"Save"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"存储"}}}},
+    "button.ok": {"localizations":{"en":{"stringUnit":{"state":"translated","value":"OK"}},"zh-Hans":{"stringUnit":{"state":"translated","value":"好"}}}},
+    "localNetwork.hint": {
+      "comment": "Instructions under the local network heading. The quoted names are the labels in System Settings.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other devices can’t find this receiver yet. In System Settings, open Privacy & Security, then Local Network, and turn on AirPlayViewer."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他设备暂时找不到此接收器。请在“系统设置”中打开“隐私与安全性”>“本地网络”，然后开启 AirPlayViewer。"
+          }
+        }
+      }
+    },
+    "localNetwork.openSettings": {
+      "comment": "Button that opens the Local Network pane of System Settings.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open System Settings"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开系统设置"
+          }
+        }
+      }
+    },
+    "localNetwork.title": {
+      "comment": "Heading shown in the window when other devices cannot find this Mac.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Local Network Access"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请允许访问本地网络"
+          }
+        }
+      }
+    },
+    "menu.quit": {
+      "comment": "Menu bar item that quits the app.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit AirPlayViewer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出 AirPlayViewer"
+          }
+        }
+      }
+    },
+    "menu.showWindow": {
+      "comment": "Menu bar item that brings the mirror window to the front.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Window"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示窗口"
+          }
+        }
+      }
+    },
+    "sender.unknown": {
+      "comment": "Window title while mirroring from a device that did not give its name.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPlay Device"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPlay 设备"
+          }
+        }
+      }
+    },
+    "status.receiverFailed": {
+      "comment": "Heading shown in the window when the app could not start receiving.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can’t Receive Mirroring"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法接收镜像"
+          }
+        }
+      }
+    },
+    "status.receiverFailedHint": {
+      "comment": "Advice under the failure heading. %lld is an error number to quote when asking for help.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit AirPlayViewer and open it again. (Error %lld)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请退出 AirPlayViewer 后重新打开。（错误 %lld）"
+          }
+        }
+      }
+    },
+    "status.waiting": {
+      "comment": "Heading shown in the window while no device is mirroring.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for AirPlay…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在等待 AirPlay 投屏…"
+          }
+        }
+      }
+    },
+    "status.waitingHint": {
+      "comment": "Instructions under the waiting heading. %@ is this receiver's name as listed on the headset.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPlay receiver: “%@”"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPlay 接收器：“%@”"
+          }
+        }
+      }
+    },
+    "window.title": {
+      "comment": "Name of the mirror window, used by VoiceOver and Mission Control.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPlayViewer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPlayViewer"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

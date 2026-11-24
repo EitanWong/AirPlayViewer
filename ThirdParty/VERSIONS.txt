@@ -1,0 +1,2 @@
+UxPlay   https://github.com/FDH2/UxPlay                  48f5ce47c9ef694afccfac907c9e8828329657fe 2026-11-17
+libplist https://github.com/libimobiledevice/libplist    b3f14c22dbb29056c0d3c37bb9b2401ffdb7bc8f 2026-11-07

@@ -1,0 +1,23 @@
+/.build/
+/.build-*/
+/.swiftpm/
+/build/
+/DerivedData/
+.DS_Store
+xcuserdata/
+*.xcuserstate
+.env
+.env.*
+*.p12
+*.p8
+*.pfx
+*.keychain*
+*.dmg
+*.app/
+*.dSYM/
+*.mobileprovision
+*.provisionprofile
+
+# Local experiments and review notes. Curate anything public into docs/ first.
+/Spikes/
+/Reviews/

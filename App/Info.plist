@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>zh-Hans</string>
+    </array>
+    <key>CFBundleAllowMixedLocalizations</key>
+    <true/>
+    <key>CFBundleExecutable</key>
+    <string>AirPlayViewer</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.eitan.airplayviewer</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>AirPlayViewer</string>
+    <key>CFBundleDisplayName</key>
+    <string>AirPlayViewer</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>27.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_airplay._tcp</string>
+        <string>_raop._tcp</string>
+    </array>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>AirPlayViewer receives AirPlay screen mirroring from devices on your local network.</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+</dict>
+</plist>
